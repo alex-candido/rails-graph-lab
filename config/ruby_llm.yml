@@ -1,0 +1,9 @@
+development: &default
+  gemini_api_key: <%= ENV.fetch("RUBY_LLM_GEMINI_API_KEY", "your_default_api_key") %>
+  default_model: <%= ENV.fetch("RUBY_LLM_DEFAULT_MODEL", "your_default_model") %>
+
+test:
+  <<: *default
+
+production:
+  <<: *default

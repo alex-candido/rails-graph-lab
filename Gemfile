@@ -66,3 +66,5 @@ gem "ruby_llm", "~> 1.16"
 gem "annotaterb", "~> 4.25", group: :development
 
 gem "factory_bot", "~> 6.6", group: :development
+
+gem "dotenv-rails", "~> 3.2", groups: [:development, :test]
