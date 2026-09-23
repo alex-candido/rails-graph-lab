@@ -16,7 +16,7 @@ html
     link rel="apple-touch-icon" href="/icon.png"
 
     = stylesheet_link_tag :app, "data-turbo-track": "reload"
-    = javascript_importmap_tags
+    = javascript_include_tag "application", type: "module", "data-turbo-track": "reload"
 
   body class="h-screen bg-white dark:bg-neutral-900"
     main class="h-full"

@@ -1,25 +1,4 @@
 - content_for :title, "Fabi Graph Lab — Chat"
 
-div class="flex h-full flex-col" data-controller="chat"
-  header class="flex items-center gap-2 px-6 py-4"
-    div class="h-7 w-7 rounded-full bg-gradient-to-tr from-blue-500 via-violet-500 to-pink-400"
-    span class="text-lg font-medium text-neutral-700 dark:text-neutral-200" Fabi Graph Lab
-
-  div class="mx-auto flex w-full max-w-3xl flex-1 flex-col overflow-hidden px-4"
-    div class="flex flex-1 flex-col items-center justify-center gap-2" data-chat-target="empty"
-      h1 class="bg-gradient-to-r from-blue-500 via-violet-500 to-pink-400 bg-clip-text text-4xl font-medium text-transparent"
-        | Olá, o que você quer entender hoje?
-      p class="text-neutral-500 dark:text-neutral-400"
-        | Pergunte sobre pré-requisitos e assuntos do grafo de conhecimento.
-
-    div class="flex-1 space-y-4 overflow-y-auto py-6" data-chat-target="messages"
-
-  div class="mx-auto w-full max-w-3xl px-4 pb-6"
-    form data-chat-target="form" action=chat_questions_path method="post" data-action="submit->chat#submit"
-      div class="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-5 py-3 shadow-sm focus-within:border-blue-400"
-        input type="text" name="question" data-chat-target="input" autocomplete="off"
-          class="flex-1 bg-transparent text-sm text-neutral-800 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none"
-          placeholder="Ex: o que eu preciso saber antes de entender Funções?"
-        button type="submit" class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
-          svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"
-            path d="M3.478 2.404a.75.75 0 0 0-.926.94l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"
+div class="h-full [&>div]:h-full"
+  = render Components::Base::ReactComponent.new(name: "Chat", props: { createPath: chat_questions_path })
