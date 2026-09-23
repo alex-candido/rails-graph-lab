@@ -8,6 +8,8 @@
 #  updated_at :datetime         not null
 #
 class Question::Question < ApplicationRecord
+  include SyncsToGraph
+
   has_many :question_subjects, dependent: :destroy
   has_many :subjects, through: :question_subjects
 

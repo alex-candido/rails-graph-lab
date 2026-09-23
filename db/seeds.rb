@@ -37,23 +37,29 @@ end
 
 puts "Populando árvore de pré-requisito de Matemática..."
 
-# 1ª passada: garante que todo assunto existe antes de ligar pré-requisito
-# (evita depender da ordem em que aparecem no CURRICULO)
-subjects_by_nome = CURRICULO.each_with_object({}) do |dados, memo|
-  memo[dados[:nome]] = find_or_create_subject(dados[:nome])
-end
-
-# 2ª passada: liga pré-requisitos e questões de cada assunto
-CURRICULO.each do |dados|
-  subject = subjects_by_nome.fetch(dados[:nome])
-
-  dados[:prerequisitos].each do |nome_prerequisito|
-    link_prerequisite(subject: subject, prerequisite: subjects_by_nome.fetch(nome_prerequisito))
+# Suspende o job automático de sincronização durante a carga em lote — ver
+# SyncsToGraph.suppress_graph_sync. Sem isso, cada criação dispararia um job
+# concorrente brigando pela mesma trava do GraphSync, estourando o pool de
+# conexões antes do seed terminar.
+Subject::Subject.suppress_graph_sync do
+  # 1ª passada: garante que todo assunto existe antes de ligar pré-requisito
+  # (evita depender da ordem em que aparecem no CURRICULO)
+  subjects_by_nome = CURRICULO.each_with_object({}) do |dados, memo|
+    memo[dados[:nome]] = find_or_create_subject(dados[:nome])
   end
 
-  dados[:questoes].each do |titulo|
-    question = find_or_create_question(titulo)
-    link_question_subject(question: question, subject: subject)
+  # 2ª passada: liga pré-requisitos e questões de cada assunto
+  CURRICULO.each do |dados|
+    subject = subjects_by_nome.fetch(dados[:nome])
+
+    dados[:prerequisitos].each do |nome_prerequisito|
+      link_prerequisite(subject: subject, prerequisite: subjects_by_nome.fetch(nome_prerequisito))
+    end
+
+    dados[:questoes].each do |titulo|
+      question = find_or_create_question(titulo)
+      link_question_subject(question: question, subject: subject)
+    end
   end
 end
 

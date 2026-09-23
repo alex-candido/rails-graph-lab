@@ -19,6 +19,8 @@
 #  fk_rails_...  (subject_id => subject_subjects.id)
 #
 class Subject::SubjectPrerequisite < ApplicationRecord
+  include SyncsToGraph
+
   belongs_to :subject, class_name: "Subject::Subject"
   belongs_to :prerequisite, class_name: "Subject::Subject"
 end

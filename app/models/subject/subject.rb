@@ -8,6 +8,8 @@
 #  updated_at :datetime         not null
 #
 class Subject::Subject < ApplicationRecord
+  include SyncsToGraph
+
   has_many :subject_prerequisites, class_name: "Subject::SubjectPrerequisite", dependent: :destroy
   has_many :prerequisites, through: :subject_prerequisites
 
