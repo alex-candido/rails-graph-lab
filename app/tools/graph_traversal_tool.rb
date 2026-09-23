@@ -1,46 +1,46 @@
 # Consulta o grafo (Apache AGE) sem nenhum LLM aqui dentro — 100% Ruby
 # determinístico, mesmo espírito das tools de matching do Fabi de verdade
-# (ex.: MatchQuestionsMetadataTool). O agente decide QUANDO chamar; essa
-# tool só faz a travessia e devolve dado bruto.
+# (ex.: MatchQuestionsMetadataTool). O agente decide QUAL relação, DE ONDE
+# e QUÃO FUNDO buscar (via function calling); essa tool só executa a
+# travessia e devolve dado bruto — nunca decide nada sozinha.
 class GraphTraversalTool < ApplicationTool
-  description "Busca no grafo de conhecimento a cadeia de pré-requisito de um assunto e as questões associadas a cada assunto encontrado"
+  description "Percorre o grafo de conhecimento a partir de um nó, seguindo um tipo de relação específico, até uma profundidade determinada"
 
-  PREREQUISITE_DEPTH = "1..5"
-  DIRECT_EDGE_DEPTH   = "1..1"
+  # Allowlist de relações permitidas — mesmo princípio do
+  # DockerRunner::COMMANDS: nunca deixar o agente apontar pra uma classe
+  # arbitrária.
+  EDGE_TYPES = {
+    "Requires"   => Graph::Requires,
+    "HasSubject" => Graph::HasSubject
+  }.freeze
 
-  param :subject_name, type: "string", desc: "Nome do assunto a partir do qual buscar pré-requisitos (deve bater com o nome de um assunto existente no grafo)"
+  param :edge_type, type: "string", desc: "Tipo de relação a seguir: 'Requires' (assunto -> pré-requisito) ou 'HasSubject' (questão -> assunto)"
+  param :node_name, type: "string", desc: "Nome do assunto (ou título da questão) de onde partir ou onde chegar na busca"
+  param :direction,  type: "string", desc: "'from' busca o que node_name aponta (segue a seta a partir dele); 'to' busca o que aponta pra node_name (segue a seta até ele)"
+  param :depth,      type: "string", desc: "Profundidade da busca em Cypher, ex: '1..5' pra multi-salto ou '1..1' pra ligação direta", required: false
 
-  def execute(subject_name:)
-    subject = Graph::Subject.find_by(nome: subject_name)
-    return RubyLLM::Tool::Halt.new("Assunto '#{subject_name}' não encontrado no grafo.") unless subject
+  def execute(edge_type:, node_name:, direction:, depth: "1..5")
+    edge_class = EDGE_TYPES[edge_type]
+    return RubyLLM::Tool::Halt.new("Tipo de relação '#{edge_type}' desconhecido. Use um de: #{EDGE_TYPES.keys.join(', ')}.") unless edge_class
 
-    prerequisite_names = prerequisite_chain(subject_name)
-    subject_names = [ subject_name ] + prerequisite_names
+    node_filter = direction == "from" ? { start_node_filter: { nome: node_name } } : { end_node_filter: { nome: node_name } }
+    paths = ApacheAge::Path.cypher(path_edge: edge_class, path_length: depth, **node_filter).all
 
-    {
-      assunto: subject_name,
-      cadeia_de_prerequisito: prerequisite_names,
-      questoes_por_assunto: subject_names.index_with { |nome| questions_for(nome) }
-    }
+    return RubyLLM::Tool::Halt.new("Nenhum caminho encontrado pra '#{node_name}' via '#{edge_type}'.") if paths.empty?
+
+    { edge_type: edge_type, node_name: node_name, direction: direction, caminhos: paths.map { |path| serialize_path(path) } }
   rescue => e
     RubyLLM::Tool::Halt.new("Erro ao consultar o grafo: #{e.message}")
   end
 
   private
 
-  def prerequisite_chain(subject_name)
-    ApacheAge::Path.cypher(
-      path_edge: Graph::Requires,
-      path_length: PREREQUISITE_DEPTH,
-      start_node_filter: { nome: subject_name }
-    ).all.flat_map { |path| path.select { |item| item.is_a?(Graph::Subject) }.map(&:nome) }.uniq - [ subject_name ]
-  end
-
-  def questions_for(subject_name)
-    ApacheAge::Path.cypher(
-      path_edge: Graph::HasSubject,
-      path_length: DIRECT_EDGE_DEPTH,
-      end_node_filter: { nome: subject_name }
-    ).all.filter_map { |path| path.find { |item| item.is_a?(Graph::Question) }&.titulo }
+  def serialize_path(path)
+    path.filter_map do |item|
+      case item
+      when Graph::Subject  then { tipo: "Subject", nome: item.nome }
+      when Graph::Question then { tipo: "Question", titulo: item.titulo }
+      end
+    end
   end
 end

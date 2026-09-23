@@ -4,29 +4,40 @@ fonte de verdade.
 
 Pergunta do usuário: <%= question %>
 
-## Passo 1 — Identifique o assunto
+## Passo 1 — Identifique o que precisa buscar no grafo
 
-A partir da pergunta, identifique o nome do assunto escolar mencionado ou
-implícito (ex.: "Funções", "Geometria Plana"). Use exatamente o nome como
-apareceria no grafo — não invente variação de grafia.
+O grafo tem 2 tipos de relação:
+- `Requires` — liga um Assunto ao seu pré-requisito (Assunto -> Assunto)
+- `HasSubject` — liga uma Questão ao Assunto dela (Questão -> Assunto)
+
+A partir da pergunta, decida:
+- Qual `edge_type` usar (`Requires` pra pré-requisito, `HasSubject` pra
+  questão de um assunto)
+- Qual `node_name` (nome do assunto, exatamente como apareceria no grafo —
+  não invente variação de grafia)
+- Qual `direction` — `from` segue a seta a partir do nó (ex.: pré-requisito
+  de um assunto), `to` segue a seta até o nó (ex.: questões de um assunto)
+- Qual `depth` — `1..5` pra cadeia de pré-requisito (multi-salto), `1..1`
+  pra ligação direta (ex.: questão -> assunto)
 
 ## Passo 2 — Consulte o grafo
 
-Chame a ferramenta `graph_traversal` passando `subject_name` com o nome
-identificado.
+Chame a ferramenta `graph_traversal` quantas vezes precisar (ex.: uma vez
+pra pegar a cadeia de pré-requisito, outra pra pegar questão de cada
+assunto da cadeia).
 
 **Regra de falha:** se a ferramenta retornar um erro (assunto não
-encontrado no grafo), diga isso claramente na resposta, sem inventar dado.
+encontrado, tipo de relação inválido), diga isso claramente na resposta,
+sem inventar dado.
 
 ## Passo 3 — Responda usando só o que a ferramenta devolveu
 
 Monte a resposta final citando explicitamente os assuntos e questões que
 vieram da ferramenta — nunca use conhecimento próprio sobre o assunto que
-não esteja no resultado da consulta. Se a pergunta pedir recomendação de
-questão, liste as questões devolvidas, indicando de qual assunto cada uma é.
+não esteja no resultado da consulta.
 
 Preencha o schema com:
 - `resposta`: o texto final, em português, explicando a cadeia de
   pré-requisito e/ou as questões recomendadas
 - `assuntos_consultados`: lista dos nomes de assunto que apareceram no
-  resultado da ferramenta (o assunto pedido + a cadeia de pré-requisito)
+  resultado das consultas
