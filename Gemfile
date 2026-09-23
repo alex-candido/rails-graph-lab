@@ -68,3 +68,9 @@ gem "annotaterb", "~> 4.25", group: :development
 gem "factory_bot", "~> 6.6", group: :development
 
 gem "dotenv-rails", "~> 3.2", groups: [:development, :test]
+
+# Fixado na mesma versão do Fabi real (2.21.2) — a 3.0.2 (resolvida por
+# padrão nesse projeto novo) quebra ActiveSupport::JSON.decode ao ler o
+# cookie de sessão (ArgumentError: wrong number of arguments), incompatível
+# com o Rails 8.1 atual.
+gem "json", "2.21.2"

@@ -1,0 +1,24 @@
+<h1>Fabi Graph Lab — chat de teste (GraphRAG)</h1>
+
+<%= form_with url: chat_path, method: :post do %>
+  <label for="question">Pergunta</label><br>
+  <input type="text" name="question" id="question" value="<%= @question %>" size="60"
+         placeholder="Ex: o que eu preciso saber antes de entender Funções?">
+  <button type="submit">Perguntar</button>
+<% end %>
+
+<% if @error %>
+  <p style="color: red;"><strong>Erro:</strong> <%= @error %></p>
+<% end %>
+
+<% if @result %>
+  <h2>Resposta</h2>
+  <p><%= simple_format(@result["resposta"]) %></p>
+
+  <h3>Assuntos consultados no grafo</h3>
+  <ul>
+    <% @result["assuntos_consultados"].each do |nome| %>
+      <li><%= nome %></li>
+    <% end %>
+  </ul>
+<% end %>
