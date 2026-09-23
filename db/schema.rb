@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_23_172953) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_23_184441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ag_catalog.age"
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
+
+  create_table "chat_questions", force: :cascade do |t|
+    t.text "assuntos_consultados"
+    t.datetime "created_at", null: false
+    t.text "erro"
+    t.text "question", null: false
+    t.text "resposta"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "question_question_subjects", force: :cascade do |t|
     t.datetime "created_at", null: false
