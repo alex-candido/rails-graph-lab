@@ -69,6 +69,15 @@ gem "factory_bot", "~> 6.6", group: :development
 
 gem "dotenv-rails", "~> 3.2", groups: [:development, :test]
 
+# Use Tailwind CSS for styling [https://github.com/rails/tailwindcss-rails]
+gem "tailwindcss-rails", "~> 4.4"
+
+# Slim como engine de views [https://github.com/slim-template/slim-rails]
+gem "slim-rails"
+
+# Component-based view library for Rails [https://github.com/phlex-org/phlex-rails]
+gem "phlex-rails", "~> 2.4"
+
 # Fixado na mesma versão do Fabi real (2.21.2) — a 3.0.2 (resolvida por
 # padrão nesse projeto novo) quebra ActiveSupport::JSON.decode ao ler o
 # cookie de sessão (ArgumentError: wrong number of arguments), incompatível
