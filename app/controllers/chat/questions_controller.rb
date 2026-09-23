@@ -18,6 +18,6 @@ class Chat::QuestionsController < ApplicationController
   private
 
   def serialize(chat_question)
-    chat_question.as_json(only: [ :id, :question, :status, :resposta, :assuntos_consultados, :erro ])
+    chat_question.as_json(only: [ :id, :question, :status, :resposta, :assuntos_consultados, :erro, :tool_calls ])
   end
 end

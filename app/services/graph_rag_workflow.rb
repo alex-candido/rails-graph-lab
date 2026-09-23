@@ -17,6 +17,6 @@ class GraphRagWorkflow
 
     raise step.output if step.failed?
 
-    step.output
+    step.output.merge("tool_calls" => step.tool_calls)
   end
 end

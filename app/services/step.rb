@@ -2,13 +2,14 @@
 # Fabi real, adaptado (aqui loga em Rails.logger em vez de process.logs,
 # já que esse laboratório não tem um model de processo).
 class Step
-  attr_reader :output
+  attr_reader :output, :tool_calls
 
   def initialize(description:, agent: nil)
     @description  = description
     @agent        = agent
     @is_completed = false
     @is_failed    = false
+    @tool_calls   = []
   end
 
   def execute_agent(ask:, context: nil)
@@ -48,9 +49,12 @@ class Step
   def attach_callbacks(agent)
     agent.on_tool_call do |tool_call|
       Rails.logger.info("→ Chamando ferramenta: #{tool_call.name} (#{@description})")
+      @tool_calls << { tool: tool_call.name, entrada: tool_call.arguments, saida: nil }
     end
 
     agent.on_tool_result do |result|
+      @tool_calls.last[:saida] = result.is_a?(RubyLLM::Tool::Halt) ? { erro: result.content } : result
+
       if result.is_a?(RubyLLM::Tool::Halt)
         Rails.logger.warn("✗ Ferramenta interrompeu: #{result.content}")
         failed!("Processo interrompido: #{result.content}")

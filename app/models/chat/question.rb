@@ -8,6 +8,7 @@
 #  question             :text             not null
 #  resposta             :text
 #  status               :integer          default(0), not null
+#  tool_calls           :jsonb            not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #

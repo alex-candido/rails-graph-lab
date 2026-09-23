@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_23_184441) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_23_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ag_catalog.age"
   enable_extension "pg_catalog.plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_23_184441) do
     t.text "question", null: false
     t.text "resposta"
     t.integer "status", default: 0, null: false
+    t.jsonb "tool_calls", default: [], null: false
     t.datetime "updated_at", null: false
   end
 

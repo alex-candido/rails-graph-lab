@@ -2,6 +2,12 @@ import React, { useRef, useState } from "react"
 
 type Status = "pending" | "processing" | "completed" | "failed"
 
+type ToolCall = {
+  tool: string
+  entrada: Record<string, unknown>
+  saida: unknown
+}
+
 type ChatQuestion = {
   id: number
   question: string
@@ -9,6 +15,7 @@ type ChatQuestion = {
   resposta: string | null
   assuntos_consultados: string | null
   erro: string | null
+  tool_calls: ToolCall[] | null
 }
 
 type Message = {
@@ -16,6 +23,7 @@ type Message = {
   role: "user" | "assistant"
   text?: string
   assuntos?: string[]
+  toolCalls?: ToolCall[]
   pending?: boolean
   error?: boolean
 }
@@ -76,6 +84,7 @@ export default function Chat({ createPath, subjectsCount, questionsCount }: Prop
                       .split(",")
                       .map((nome) => nome.trim())
                       .filter(Boolean),
+                    toolCalls: data.tool_calls || [],
                   }
                 : message
             )
@@ -206,6 +215,32 @@ export default function Chat({ createPath, subjectsCount, questionsCount }: Prop
                             </span>
                           ))}
                         </div>
+                      )}
+                      {!!message.toolCalls?.length && (
+                        <details className="mt-3 rounded-lg border border-neutral-200 bg-white/60 text-xs dark:border-neutral-700 dark:bg-black/20">
+                          <summary className="cursor-pointer select-none px-3 py-2 font-medium text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200">
+                            Consultas ao grafo ({message.toolCalls.length})
+                          </summary>
+                          <div className="space-y-2 border-t border-neutral-200 px-3 py-2 dark:border-neutral-700">
+                            {message.toolCalls.map((toolCall, index) => (
+                              <div key={index} className="space-y-1">
+                                <div className="font-mono text-neutral-500 dark:text-neutral-400">{toolCall.tool}</div>
+                                <div>
+                                  <span className="text-neutral-400">entrada: </span>
+                                  <code className="whitespace-pre-wrap break-all text-neutral-700 dark:text-neutral-300">
+                                    {JSON.stringify(toolCall.entrada)}
+                                  </code>
+                                </div>
+                                <div>
+                                  <span className="text-neutral-400">saída: </span>
+                                  <code className="whitespace-pre-wrap break-all text-neutral-700 dark:text-neutral-300">
+                                    {JSON.stringify(toolCall.saida)}
+                                  </code>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </details>
                       )}
                     </>
                   )}

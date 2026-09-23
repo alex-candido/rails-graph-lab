@@ -8,7 +8,8 @@ class Chat::AnswerQuestionJob < ApplicationJob
     chat_question.update!(
       status: :completed,
       resposta: result["resposta"],
-      assuntos_consultados: result["assuntos_consultados"].join(", ")
+      assuntos_consultados: result["assuntos_consultados"].join(", "),
+      tool_calls: result["tool_calls"]
     )
   rescue => e
     chat_question.update!(status: :failed, erro: e.message)
