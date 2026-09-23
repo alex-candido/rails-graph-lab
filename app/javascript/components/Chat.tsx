@@ -171,7 +171,7 @@ export default function Chat({ createPath, subjectsCount, questionsCount }: Prop
           </div>
         )}
 
-        <div ref={messagesRef} className="flex-1 space-y-4 overflow-y-auto py-6">
+        <div ref={messagesRef} className="chat-scroll flex-1 space-y-4 overflow-y-auto py-6">
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
               {message.role === "user" ? (
