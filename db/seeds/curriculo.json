@@ -1,0 +1,266 @@
+[
+  {
+    "nome": "Aritmética Básica",
+    "prerequisitos": [],
+    "questoes": [
+      "Quanto é 7 + 8 × 2?",
+      "Calcule 45 ÷ 9",
+      "Qual o resultado de 12 - 5 + 3?",
+      "Quanto é 6 × 7 - 10?",
+      "Calcule (4 + 6) × 2"
+    ]
+  },
+  {
+    "nome": "Frações e Decimais",
+    "prerequisitos": ["Aritmética Básica"],
+    "questoes": [
+      "Some 1/2 + 1/4",
+      "Converta 0,75 pra fração",
+      "Qual é maior: 2/3 ou 3/4?",
+      "Calcule 3/5 × 2/3",
+      "Converta 3/8 pra decimal"
+    ]
+  },
+  {
+    "nome": "Porcentagem",
+    "prerequisitos": ["Frações e Decimais"],
+    "questoes": [
+      "Quanto é 20% de 150?",
+      "Um produto de R$ 80 tem 25% de desconto. Qual o preço final?",
+      "35 é quantos por cento de 140?",
+      "Um valor de R$ 200 aumentou 15%. Qual o novo valor?",
+      "Se 40% de um número é 60, qual é o número?"
+    ]
+  },
+  {
+    "nome": "Potenciação",
+    "prerequisitos": ["Aritmética Básica"],
+    "questoes": [
+      "Calcule 2⁵",
+      "Quanto é 3² + 4²?",
+      "Simplifique (2³)²",
+      "Calcule 10⁻²",
+      "Quanto é 5⁰ + 5¹?"
+    ]
+  },
+  {
+    "nome": "Radiciação",
+    "prerequisitos": ["Potenciação"],
+    "questoes": [
+      "Calcule √81",
+      "Simplifique √50",
+      "Quanto é ∛27?",
+      "Calcule √(16 × 4)",
+      "Racionalize 1/√2"
+    ]
+  },
+  {
+    "nome": "Equações do 1º grau",
+    "prerequisitos": ["Aritmética Básica"],
+    "questoes": [
+      "Resolva: 3x + 5 = 20",
+      "Resolva: 2x - 7 = 9",
+      "Resolva: 5(x - 1) = 15",
+      "Resolva: x/3 + 2 = 6",
+      "Resolva: 4x + 3 = 2x + 11"
+    ]
+  },
+  {
+    "nome": "Inequações",
+    "prerequisitos": ["Equações do 1º grau"],
+    "questoes": [
+      "Resolva: 2x + 3 > 9",
+      "Resolva: 5 - x ≤ 2",
+      "Resolva: 3x - 1 < 2x + 4",
+      "Resolva: -2x + 6 ≥ 0",
+      "Determine o conjunto solução de 4x > 12"
+    ]
+  },
+  {
+    "nome": "Sistemas de Equações",
+    "prerequisitos": ["Equações do 1º grau"],
+    "questoes": [
+      "Resolva o sistema: x + y = 10, x - y = 2",
+      "Resolva: 2x + y = 7, x - y = -1",
+      "Resolva: 3x + 2y = 16, x + y = 6",
+      "Resolva: x + 2y = 8, 2x - y = 1",
+      "Resolva: 4x - y = 5, x + y = 5"
+    ]
+  },
+  {
+    "nome": "Matrizes",
+    "prerequisitos": ["Sistemas de Equações"],
+    "questoes": [
+      "Some as matrizes [[1,2],[3,4]] e [[5,6],[7,8]]",
+      "Calcule o determinante de [[2,3],[1,4]]",
+      "Multiplique a matriz [[1,0],[0,1]] por [[2,3],[4,5]]",
+      "Transponha a matriz [[1,2,3],[4,5,6]]",
+      "Calcule a inversa de [[1,2],[0,1]]"
+    ]
+  },
+  {
+    "nome": "Equações do 2º grau",
+    "prerequisitos": ["Equações do 1º grau"],
+    "questoes": [
+      "Encontre as raízes de x² - 5x + 6 = 0",
+      "Resolva: x² - 9 = 0",
+      "Resolva: 2x² - 8x = 0",
+      "Calcule o discriminante de x² + 2x + 1",
+      "Resolva: x² - 4x + 4 = 0"
+    ]
+  },
+  {
+    "nome": "Álgebra",
+    "prerequisitos": ["Equações do 1º grau"],
+    "questoes": [
+      "Simplifique a expressão 2(x + 3) - x",
+      "Desenvolva (x + 2)(x - 2)",
+      "Simplifique 3x + 2x - x",
+      "Desenvolva (x + 1)²",
+      "Fatore parcialmente 4x + 8"
+    ]
+  },
+  {
+    "nome": "Fatoração",
+    "prerequisitos": ["Álgebra"],
+    "questoes": [
+      "Fatore x² - 16",
+      "Fatore x² + 5x + 6",
+      "Fatore 2x² - 8",
+      "Fatore x² - 6x + 9",
+      "Fatore ax + ay"
+    ]
+  },
+  {
+    "nome": "Progressões",
+    "prerequisitos": ["Álgebra"],
+    "questoes": [
+      "Qual o 10º termo da PA (2, 5, 8, ...)?",
+      "Calcule a soma dos 5 primeiros termos de (1, 3, 5, 7, 9)",
+      "Qual a razão da PG (3, 6, 12, 24)?",
+      "Encontre o 6º termo da PG (2, 4, 8, ...)",
+      "Calcule a soma dos termos da PA (1, 2, 3, ..., 10)"
+    ]
+  },
+  {
+    "nome": "Funções",
+    "prerequisitos": ["Álgebra"],
+    "questoes": [
+      "Dada f(x) = 2x + 1, calcule f(3)",
+      "Qual o domínio de f(x) = 1/x?",
+      "Dada f(x) = x², calcule f(-2)",
+      "Verifique se f(x) = 3x é uma função par ou ímpar",
+      "Dada f(x) = x + 5, calcule f(f(1))"
+    ]
+  },
+  {
+    "nome": "Função Afim",
+    "prerequisitos": ["Funções"],
+    "questoes": [
+      "Qual o coeficiente angular de f(x) = 3x + 2?",
+      "Encontre a raiz de f(x) = 2x - 8",
+      "Esboce o gráfico de f(x) = -x + 4",
+      "Dada f(x) = 2x + 1, qual o valor de f(0)?",
+      "Determine a lei de formação de uma reta que passa por (0,1) e (2,5)"
+    ]
+  },
+  {
+    "nome": "Função Quadrática",
+    "prerequisitos": ["Função Afim", "Equações do 2º grau"],
+    "questoes": [
+      "Qual o vértice de f(x) = x² - 4x + 3?",
+      "Determine as raízes de f(x) = x² - 1",
+      "Qual o gráfico de f(x) = x² representa?",
+      "Calcule f(2) para f(x) = x² - 2x + 1",
+      "A parábola de f(x) = -x² + 4x tem concavidade voltada pra cima ou pra baixo?"
+    ]
+  },
+  {
+    "nome": "Função Exponencial",
+    "prerequisitos": ["Funções", "Potenciação"],
+    "questoes": [
+      "Dada f(x) = 2ˣ, calcule f(3)",
+      "Resolva: 2ˣ = 8",
+      "Dada f(x) = 3ˣ, calcule f(0)",
+      "Resolva: 5ˣ = 125",
+      "A função f(x) = 2ˣ é crescente ou decrescente?"
+    ]
+  },
+  {
+    "nome": "Logaritmos",
+    "prerequisitos": ["Função Exponencial"],
+    "questoes": [
+      "Calcule log₂ 8",
+      "Calcule log₁₀ 1000",
+      "Resolva: log₃ x = 2",
+      "Simplifique log₂ 4 + log₂ 2",
+      "Calcule log₅ 25"
+    ]
+  },
+  {
+    "nome": "Área e Perímetro",
+    "prerequisitos": ["Aritmética Básica"],
+    "questoes": [
+      "Calcule a área de um retângulo de lados 4cm e 7cm",
+      "Calcule o perímetro de um triângulo de lados 3, 4 e 5",
+      "Calcule a área de um quadrado de lado 6cm",
+      "Calcule o perímetro de um retângulo de lados 5cm e 3cm",
+      "Calcule a área de um triângulo de base 8cm e altura 5cm"
+    ]
+  },
+  {
+    "nome": "Geometria Plana",
+    "prerequisitos": ["Área e Perímetro"],
+    "questoes": [
+      "Some os ângulos internos de um pentágono regular",
+      "Calcule a área de um círculo de raio 3cm",
+      "Quantos lados tem um hexágono?",
+      "Calcule a área de um trapézio com bases 4 e 6 e altura 3",
+      "Qual a soma dos ângulos internos de um triângulo?"
+    ]
+  },
+  {
+    "nome": "Geometria Espacial",
+    "prerequisitos": ["Geometria Plana"],
+    "questoes": [
+      "Calcule o volume de um cubo de aresta 4cm",
+      "Calcule o volume de um paralelepípedo de dimensões 2x3x4",
+      "Calcule a área total de um cubo de aresta 2cm",
+      "Calcule o volume de uma esfera de raio 3cm",
+      "Calcule o volume de um cilindro de raio 2cm e altura 5cm"
+    ]
+  },
+  {
+    "nome": "Trigonometria",
+    "prerequisitos": ["Geometria Plana"],
+    "questoes": [
+      "Calcule o seno de 30°",
+      "Calcule o cosseno de 60°",
+      "Calcule a tangente de 45°",
+      "Num triângulo retângulo com hipotenusa 10 e cateto 6, calcule o outro cateto",
+      "Calcule o seno de 90°"
+    ]
+  },
+  {
+    "nome": "Estatística Básica",
+    "prerequisitos": ["Aritmética Básica"],
+    "questoes": [
+      "Calcule a média de 4, 8, 6, 10",
+      "Qual a moda do conjunto (2, 3, 3, 5, 7)?",
+      "Calcule a mediana de (1, 3, 5, 7, 9)",
+      "Calcule a média de 10, 20, 30",
+      "Qual o desvio de um valor 8 em relação à média 5?"
+    ]
+  },
+  {
+    "nome": "Probabilidade",
+    "prerequisitos": ["Aritmética Básica"],
+    "questoes": [
+      "Qual a probabilidade de sair cara no lançamento de uma moeda?",
+      "Qual a probabilidade de tirar um número par num dado de 6 faces?",
+      "Numa urna com 3 bolas vermelhas e 2 azuis, qual a chance de tirar uma azul?",
+      "Qual a probabilidade de tirar o número 5 num dado de 6 faces?",
+      "Num baralho de 52 cartas, qual a probabilidade de tirar um ás?"
+    ]
+  }
+]

@@ -6,18 +6,7 @@ require "factory_bot"
 FactoryBot.definition_file_paths = [ Rails.root.join("db/factories").to_s ]
 FactoryBot.find_definitions
 
-CURRICULO = [
-  { nome: "Aritmética Básica",   prerequisitos: [],                        questoes: [ "Quanto é 7 + 8 × 2?" ] },
-  { nome: "Equações do 1º grau", prerequisitos: [ "Aritmética Básica" ],    questoes: [ "Resolva: 3x + 5 = 20" ] },
-  { nome: "Equações do 2º grau", prerequisitos: [ "Equações do 1º grau" ], questoes: [ "Encontre as raízes de x² - 5x + 6 = 0" ] },
-  { nome: "Álgebra",             prerequisitos: [ "Equações do 1º grau" ], questoes: [ "Simplifique a expressão 2(x + 3) - x" ] },
-  { nome: "Funções",             prerequisitos: [ "Álgebra" ],
-    questoes: [ "Dada f(x) = 2x + 1, calcule f(3)", "Qual o gráfico de f(x) = x² representa?" ] },
-  { nome: "Área e Perímetro",    prerequisitos: [],
-    questoes: [ "Calcule a área de um retângulo de lados 4cm e 7cm", "Calcule o perímetro de um triângulo de lados 3, 4 e 5" ] },
-  { nome: "Geometria Plana",     prerequisitos: [ "Área e Perímetro" ],    questoes: [ "Some os ângulos internos de um pentágono regular" ] },
-  { nome: "Trigonometria",       prerequisitos: [ "Geometria Plana" ],     questoes: [ "Calcule o seno de 30°" ] }
-].freeze
+CURRICULO = JSON.parse(Rails.root.join("db/seeds/curriculo.json").read, symbolize_names: true).freeze
 
 def find_or_create_subject(nome)
   Subject::Subject.find_by(nome: nome) || FactoryBot.create(:subject_subject, nome: nome)
