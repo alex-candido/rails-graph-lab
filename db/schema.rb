@@ -10,33 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_23_171216) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_23_172953) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
-
-  # Allow age extension
-  execute('CREATE EXTENSION IF NOT EXISTS age;')
-
-  # Load the age code
-  execute("LOAD 'age';")
-
-  # Load the ag_catalog into the search path
-  execute('SET search_path = ag_catalog, "$user", public;')
-
-  # Create age_schema graph if it doesn't exist
-  execute("SELECT create_graph('age_schema');")
-
+  enable_extension "ag_catalog.age"
   enable_extension "pg_catalog.plpgsql"
-  enable_extension "public.postgis"
-  enable_extension "public.vector"
+  enable_extension "vector"
 
-  add_foreign_key "ag_catalog.ag_label", "ag_catalog.ag_graph", column: "graph", primary_key: "graphid", name: "fk_graph_oid"
-
-  create_table "public.spatial_ref_sys", primary_key: "srid", id: :integer, default: nil, force: :cascade do |t|
-    t.string "auth_name", limit: 256
-    t.integer "auth_srid"
-    t.string "proj4text", limit: 2048
-    t.string "srtext", limit: 2048
-    t.check_constraint "srid > 0 AND srid <= 998999", name: "spatial_ref_sys_srid_check"
+  create_table "question_question_subjects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "question_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_question_question_subjects_on_question_id"
+    t.index ["subject_id"], name: "index_question_question_subjects_on_subject_id"
   end
+
+  create_table "question_questions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "titulo"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subject_subject_prerequisites", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "prerequisite_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prerequisite_id"], name: "index_subject_subject_prerequisites_on_prerequisite_id"
+    t.index ["subject_id"], name: "index_subject_subject_prerequisites_on_subject_id"
+  end
+
+  create_table "subject_subjects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "question_question_subjects", "question_questions", column: "question_id"
+  add_foreign_key "question_question_subjects", "subject_subjects", column: "subject_id"
+  add_foreign_key "subject_subject_prerequisites", "subject_subjects", column: "prerequisite_id"
+  add_foreign_key "subject_subject_prerequisites", "subject_subjects", column: "subject_id"
 end

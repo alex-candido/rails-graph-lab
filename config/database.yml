@@ -22,7 +22,12 @@ default: &default
   port: <%= ENV.fetch("DB_PORT") { 5433 } %>
   username: <%= ENV.fetch("DB_USER") { "fabi_graph" } %>
   password: <%= ENV.fetch("DB_PASSWORD") { "fabi_graph_password" } %>
-  schema_search_path: ag_catalog,age_schema,public
+  # public primeiro: tabelas relacionais nossas (create_table sem schema
+  # explícito) precisam nascer em public, não em ag_catalog — o Postgres usa
+  # o primeiro schema do search_path como destino padrão de criação. AGE
+  # continua funcionando normal: ag_catalog/age_schema seguem no caminho de
+  # busca, só não são mais o alvo padrão de CREATE TABLE.
+  schema_search_path: public,ag_catalog,age_schema
 
 
 development:

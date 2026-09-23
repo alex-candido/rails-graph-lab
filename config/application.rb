@@ -38,5 +38,12 @@ module FabiGraphLab
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # O search_path do rails_age inclui ag_catalog/age_schema (esquemas internos
+    # do Apache AGE), o que confunde o dumper do schema.rb tentando descrever
+    # tabelas de sistema da extensão. Restringe o dump só ao schema public — o
+    # estado do grafo já é recriado deterministicamente pela migration
+    # AddApacheAge (CREATE EXTENSION + create_graph), não precisa estar aqui.
+    config.active_record.dump_schemas = "public"
   end
 end

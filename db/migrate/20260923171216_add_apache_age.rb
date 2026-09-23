@@ -11,6 +11,13 @@ class AddApacheAge < ActiveRecord::Migration[7.1]
 
     # Create age_schema graph if it doesn't exist
     execute("SELECT create_graph('age_schema');")
+
+    # Restaura a ordem do search_path da conexão (público primeiro) pro resto
+    # desta sessão de migrate — sem isso, toda migration que rodar depois desta
+    # (na mesma execução de `db:migrate`) cria suas tabelas dentro de ag_catalog
+    # em vez de public, porque o Postgres usa o primeiro schema do search_path
+    # como destino padrão de CREATE TABLE sem schema explícito.
+    execute('SET search_path = public, ag_catalog, age_schema;')
   end
 
   def down

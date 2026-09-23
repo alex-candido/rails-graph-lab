@@ -60,3 +60,9 @@ group :development do
 end
 
 gem "rails_age", "~> 0.7.0"
+
+gem "ruby_llm", "~> 1.16"
+
+gem "annotaterb", "~> 4.25", group: :development
+
+gem "factory_bot", "~> 6.6", group: :development

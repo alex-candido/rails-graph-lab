@@ -19,20 +19,20 @@ Rails.application.config.to_prepare do
     :edge, ApacheAge::Types::Factory.type_for(ApacheAge::Edge)
   )
 
-  require_dependency 'question'
+  require_dependency 'graph/question'
   ActiveModel::Type.register(
-    :question, ApacheAge::Types::Factory.type_for(Question)
+    :question, ApacheAge::Types::Factory.type_for(Graph::Question)
   )
-  require_dependency 'subject'
+  require_dependency 'graph/subject'
   ActiveModel::Type.register(
-    :subject, ApacheAge::Types::Factory.type_for(Subject)
+    :subject, ApacheAge::Types::Factory.type_for(Graph::Subject)
   )
-  require_dependency 'has_subject'
+  require_dependency 'graph/has_subject'
   ActiveModel::Type.register(
-    :has_subject, ApacheAge::Types::Factory.type_for(HasSubject)
+    :has_subject, ApacheAge::Types::Factory.type_for(Graph::HasSubject)
   )
-  require_dependency 'requires'
+  require_dependency 'graph/requires'
   ActiveModel::Type.register(
-    :requires, ApacheAge::Types::Factory.type_for(Requires)
+    :requires, ApacheAge::Types::Factory.type_for(Graph::Requires)
   )
 end
