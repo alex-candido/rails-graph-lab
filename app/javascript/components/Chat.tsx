@@ -22,22 +22,42 @@ type Message = {
 
 type Props = {
   createPath: string
+  subjectsCount: number
+  questionsCount: number
 }
+
+const SUGESTOES = [
+  "O que eu preciso saber antes de Trigonometria?",
+  "Quais os pré-requisitos de Função Quadrática?",
+  "O que é preciso pra entender Logaritmos?",
+  "Quais assuntos vêm antes de Geometria Espacial?",
+]
+
+const MAX_TEXTAREA_HEIGHT = 160
 
 function csrfToken(): string {
   return document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || ""
 }
 
-export default function Chat({ createPath }: Props) {
+export default function Chat({ createPath, subjectsCount, questionsCount }: Props) {
   const [messages, setMessages] = useState<Message[]>([])
   const [question, setQuestion] = useState("")
   const [sending, setSending] = useState(false)
   const messagesRef = useRef<HTMLDivElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const scrollToBottom = () => {
     requestAnimationFrame(() => {
       messagesRef.current?.scrollTo({ top: messagesRef.current.scrollHeight })
     })
+  }
+
+  const resizeTextarea = () => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+
+    textarea.style.height = "auto"
+    textarea.style.height = `${Math.min(textarea.scrollHeight, MAX_TEXTAREA_HEIGHT)}px`
   }
 
   const poll = (id: number, pendingId: string) => {
@@ -84,10 +104,8 @@ export default function Chat({ createPath }: Props) {
       })
   }
 
-  const submit = (event: React.FormEvent) => {
-    event.preventDefault()
-
-    const trimmed = question.trim()
+  const submit = (text?: string) => {
+    const trimmed = (text ?? question).trim()
     if (!trimmed || sending) return
 
     const pendingId = crypto.randomUUID()
@@ -98,6 +116,7 @@ export default function Chat({ createPath }: Props) {
       { id: pendingId, role: "assistant", pending: true },
     ])
     setQuestion("")
+    resizeTextarea()
     setSending(true)
     scrollToBottom()
 
@@ -129,9 +148,15 @@ export default function Chat({ createPath }: Props) {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="flex items-center gap-2 px-6 py-4">
-        <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-blue-500 via-violet-500 to-pink-400" />
-        <span className="text-lg font-medium text-neutral-700 dark:text-neutral-200">Fabi Graph Lab</span>
+      <header className="flex items-center gap-3 px-6 py-4">
+        <div className="h-7 w-7 shrink-0 rounded-full bg-gradient-to-tr from-blue-500 via-violet-500 to-pink-400" />
+        <div className="flex flex-col leading-tight">
+          <span className="text-lg font-medium text-neutral-700 dark:text-neutral-200">Fabi Graph Lab</span>
+          <span className="text-xs text-neutral-400 dark:text-neutral-500">
+            Base de conhecimento: {subjectsCount} assuntos e {questionsCount} questões de Matemática, com suas
+            relações de pré-requisito
+          </span>
+        </div>
       </header>
 
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col overflow-hidden px-4">
@@ -192,21 +217,51 @@ export default function Chat({ createPath }: Props) {
       </div>
 
       <div className="mx-auto w-full max-w-3xl px-4 pb-6">
-        <form onSubmit={submit}>
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-5 py-3 shadow-sm focus-within:border-blue-400 dark:border-neutral-700 dark:bg-neutral-800">
-            <input
-              type="text"
+        {messages.length === 0 && (
+          <div className="mb-3 flex flex-wrap gap-2">
+            {SUGESTOES.map((sugestao) => (
+              <button
+                key={sugestao}
+                type="button"
+                onClick={() => submit(sugestao)}
+                className="cursor-pointer rounded-full border border-neutral-200 px-3 py-1.5 text-xs text-neutral-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-300"
+              >
+                {sugestao}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <form
+          onSubmit={(event) => {
+            event.preventDefault()
+            submit()
+          }}
+        >
+          <div className="flex items-end gap-2 rounded-3xl border border-neutral-200 bg-neutral-50 px-5 py-3 shadow-sm focus-within:border-blue-400 dark:border-neutral-700 dark:bg-neutral-800">
+            <textarea
+              ref={textareaRef}
+              rows={1}
               value={question}
-              onChange={(event) => setQuestion(event.target.value)}
+              onChange={(event) => {
+                setQuestion(event.target.value)
+                resizeTextarea()
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault()
+                  submit()
+                }
+              }}
               autoComplete="off"
               disabled={sending}
-              className="flex-1 bg-transparent text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none disabled:opacity-50 dark:text-neutral-100"
+              className="max-h-40 flex-1 resize-none bg-transparent text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none disabled:opacity-50 dark:text-neutral-100"
               placeholder="Ex: o que eu preciso saber antes de entender Funções?"
             />
             <button
               type="submit"
               disabled={sending}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
                 <path d="M3.478 2.404a.75.75 0 0 0-.926.94l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />

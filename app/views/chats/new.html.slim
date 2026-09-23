@@ -1,4 +1,4 @@
 - content_for :title, "Fabi Graph Lab — Chat"
 
 div class="h-full [&>div]:h-full"
-  = render Components::Base::ReactComponent.new(name: "Chat", props: { createPath: chat_questions_path })
+  = render Components::Base::ReactComponent.new(name: "Chat", props: { createPath: chat_questions_path, subjectsCount: @subjects_count, questionsCount: @questions_count })
