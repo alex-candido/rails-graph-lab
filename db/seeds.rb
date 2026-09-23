@@ -59,3 +59,7 @@ end
 
 puts "Pronto: #{Subject::Subject.count} assuntos, #{Question::Question.count} questões, " \
      "#{Subject::SubjectPrerequisite.count} pré-requisitos, #{Question::QuestionSubject.count} vínculos questão-assunto."
+
+puts "Sincronizando pro grafo..."
+GraphSync.call
+puts "Grafo sincronizado: #{Graph::Subject.all.to_a.size} nós Subject, #{Graph::Question.all.to_a.size} nós Question."
