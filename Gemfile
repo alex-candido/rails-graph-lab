@@ -61,7 +61,7 @@ end
 
 gem "rails_age", "~> 0.7.0"
 
-gem "ruby_llm", "~> 1.16"
+gem "ruby_llm", "~> 2.1"
 
 gem "annotaterb", "~> 4.25", group: :development
 
