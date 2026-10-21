@@ -82,4 +82,4 @@ gem "phlex-rails", "~> 2.4"
 # padrão nesse projeto novo) quebra ActiveSupport::JSON.decode ao ler o
 # cookie de sessão (ArgumentError: wrong number of arguments), incompatível
 # com o Rails 8.1 atual.
-gem "json", "2.21.2"
+gem "json", "3.1.0"
