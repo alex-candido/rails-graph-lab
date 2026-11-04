@@ -70,7 +70,7 @@ gem "factory_bot", "~> 6.6", group: :development
 gem "dotenv-rails", "~> 3.2", groups: [:development, :test]
 
 # Use Tailwind CSS for styling [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails", "~> 4.4"
+gem "tailwindcss-rails", "~> 4.7"
 
 # Slim como engine de views [https://github.com/slim-template/slim-rails]
 gem "slim-rails"
